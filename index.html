@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>莱维塞尔能源 - AI能源管理专家</title>
+    <meta name="description" content="莱维塞尔能源科技（内蒙古）有限公司 - 依托AI智能测算、专业能源管理团队、测风塔精细数据，做您的AI能源管理专家">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="./resources/tailwindcss.js"></script>
+    <script src="./resources/anime.min.js"></script>
+    <script src="./resources/p5.min.js"></script>
+    <style>
+        :root {
+            --primary-green: #10b981;
+            --accent-blue: #3b82f6;
+            --bg-dark: #111827;
+        }
+        body { font-family: 'Noto Sans SC', sans-serif; background: linear-gradient(135deg, var(--bg-dark) 0%, #1f2937 100%); color: #f9fafb; }
+        .particle-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.25; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-green), var(--accent-blue)); transition: all .3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(16, 185, 129, .35); }
+        .service-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); transition: all .3s ease; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2); }
+        .fade-in { opacity: 0; transform: translateY(30px); } .fade-in.visible { opacity: 1; transform: translateY(0); }
+        html { scroll-behavior: smooth; }
+        /* 锚点偏移修复 */
+        section { scroll-margin-top: 80px; }
+        .icon {width: 50px;}
+    </style>
+</head>
+<body>
+    <div id="particle-bg" class="particle-bg"></div>
+
+    <!-- 导航 -->
+    <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-2xl font-bold text-white">莱维塞尔能源科技</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-white">首页</a>
+                    <a href="solutions.html" class="text-gray-300 hover:text-white transition">解决方案</a>
+                    <a href="cases.html" class="text-gray-300 hover:text-white transition">案例介绍</a>
+                    <a href="contact.html" class="text-gray-300 hover:text-white transition">联系我们</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+ <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-16">
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="hero-content">
+                <h1 class="hero-title text-5xl md:text-7xl font-bold mb-6 glow-text">
+                    莱维塞尔能源服务
+                    <br>
+                    <span class="text-5xl md:text-7xl">AI能源管理专家</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
+                    依托AI智能测算、专业能源管理团队、测风塔精细数据，为您的企业提供全方位能源服务解决方案
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a href="#services" class="btn-primary px-8 py-4 rounded-lg text-white font-semibold text-lg">
+                        了解我们的服务
+                    </a>
+                    <a href="#contact" class="border border-green-400 text-green-400 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-400 hover:text-white transition-all">
+                        联系咨询
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Services -->
+    <section id="services" class="py-20 bg-black bg-opacity-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-out">
+                <h2 class="text-4xl font-bold mb-6 text-white">四大核心服务</h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    从诊断到交易，从复盘到管理，为您的企业提供全链条能源服务
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="space-y-4">
+                    <div class="service-card p-6 rounded-xl cursor-pointer active" data-service="diagnosis">
+                        <div class="flex items-center mb-4">
+                            <div class="text-3xl mr-4">🔍</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">能源诊断服务</h3>
+                                <p class="text-gray-400">入市评估 · 用能诊断</p>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-300">
+                            专业分析用户用能状况，提供入市决策建议，优化能源管理策略
+                        </div>
+                    </div>
+                    
+                    <div class="service-card p-6 rounded-xl cursor-pointer" data-service="trading">
+                        <div class="flex items-center mb-4">
+                            <div class="text-3xl mr-4">⚡</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">电力交易服务</h3>
+                                <p class="text-gray-400">降低成本 · 风险控制</p>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-300">
+                           1V3全流程电力交易服务，全方位风险控制
+                        </div>
+                    </div>
+                    
+                    <div class="service-card p-6 rounded-xl cursor-pointer" data-service="review">
+                        <div class="flex items-center mb-4">
+                            <div class="text-3xl mr-4">📊</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">交易复盘服务</h3>
+                                <p class="text-gray-400">重点跟踪 · 模拟交易</p>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-300">
+                            多维复盘，交易前后多轮模拟核验                       
+                        </div>
+                    </div>
+                    
+                    <div class="service-card p-6 rounded-xl cursor-pointer" data-service="management">
+                        <div class="flex items-center mb-4">
+                            <div class="text-3xl mr-4">🌱</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">能源管理服务</h3>
+                                <p class="text-gray-400">绿色交易 · 碳交易 · 一体化</p>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-300">
+                            绿色权益交易、碳交易、电源管理，风光储一体化测算
+                        </div>
+                    </div>
+                </div>
+                <!-- 能源诊断 -->
+                <div id="diagnosis-content" class="service-detail">
+                    <div class="bg-black bg-opacity-20 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-6 text-white">能源诊断服务</h3>
+                        <div class="space-y-6">
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">1. 数据分析</h4>
+                                <p class="text-gray-300">根据用户历史数据，分析用能现状</p>
+                            </div>
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">2. 市场适应性评估</h4>
+                                <p class="text-gray-300">对用户用电特性与市场规则匹配进行评估</p>
+                            </div>
+                            <div class="border-l-4 border-cyan-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">3. 复杂源荷用户精准分析</h4>
+                                <p class="text-gray-300">全新AI模型，提供复杂电源诊断</p>
+                            </div>
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">4. 全方位诊断报告</h4>
+                                <p class="text-gray-300">提供个性化的能源管理优化建议</p>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <a href="contact.html" class="btn-primary px-6 py-3 rounded-lg text-white font-semibold">申请诊断服务</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 电力交易 -->
+                <div id="trading-content" class="service-detail hidden">
+                    <div class="bg-black bg-opacity-20 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-6 text-white">电力交易服务</h3>
+                        <div class="space-y-6">
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">降低电费成本</h4>
+                                <p class="text-gray-300">1V3团队配置+AI辅助策略分析，实现平均降价3-9分</p>
+                            </div>
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">电价监控预警</h4>
+                                <p class="text-gray-300">实时监控市场波动，智能预警系统，有效控制电价波动风险</p>
+                            </div>
+                            <div class="border-l-4 border-cyan-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">偏差风险控制</h4>
+                                <p class="text-gray-300">跟踪用户分钟级负荷情况，最大化控制偏差风险</p>
+                            </div>
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">优化用电计划</h4>
+                                <p class="text-gray-300">模拟计划执行交易情况，提供用电最优建议，辅助制定计划</p>
+                            </div>
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">复杂电源解决方案</h4>
+                                <p class="text-gray-300">为多种电源类型用户提供定制化交易方案，最大化收益</p>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <a href="contact.html" class="btn-primary px-6 py-3 rounded-lg text-white font-semibold">了解交易服务</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 交易复盘 -->
+                <div id="review-content" class="service-detail hidden">
+                    <div class="bg-black bg-opacity-20 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-6 text-white">交易复盘服务</h3>
+                        <div class="space-y-6">
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">交易数据深度复盘</h4>
+                                <p class="text-gray-300">全面分析交易执行结果，优化未来日交易策略，提升降费空间</p>
+                            </div>
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">模拟工具测算</h4>
+                                <p class="text-gray-300">AI赋能测算用户个性化数据，匹配企业数据安全</p>
+                            </div>
+                            <div class="border-l-4 border-cyan-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">全数据视觉穿透</h4>
+                                <p class="text-gray-300">过程回溯机制，交易痕迹透明可查</p>
+                            </div>
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">历史出清数据复盘</h4>
+                                <p class="text-gray-300">综合分析量价曲线并出具报告，优先保证用户生产效益</p>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <a href="contact.html" class="btn-primary px-6 py-3 rounded-lg text-white font-semibold">申请复盘服务</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 能源管理 -->
+                <div id="management-content" class="service-detail hidden">
+                    <div class="bg-black bg-opacity-20 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-6 text-white">能源管理增值服务</h3>
+                        <div class="space-y-6">
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">绿色权益交易</h4>
+                                <p class="text-gray-300">协助企业参与绿色权益市场交易</p>
+                            </div>
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">碳交易</h4>
+                                <p class="text-gray-300">提供碳交易分析服务，助力企业实现低碳目标</p>
+                            </div>
+                            <div class="border-l-4 border-cyan-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">电源管理</h4>
+                                <p class="text-gray-300">提供复杂电源专项解决方案，提高能源利用率</p>
+                            </div>
+                            <div class="border-l-4 border-green-400 pl-4">
+                                <h4 class="text-lg font-semibold text-white mb-2">风光储一体化测算</h4>
+                                <p class="text-gray-300">凭借行业经验，提供风光储一体化投资及运营测算</p>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <a href="contact.html" class="btn-primary px-6 py-3 rounded-lg text-white font-semibold">了解管理服务</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-black bg-opacity-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-6 text-white">联系我们</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    让莱维塞尔成为您能源服务的全优保姆，让生产安心，让企业放心
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- 左侧联系信息 -->
+                <div >
+                    <h3 class="text-2xl font-bold mb-6 text-white">联系方式</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4 text-blue-400 icon">📞</div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-white">服务热线</h4>
+                                <p class="text-blue-400 text-xl font-bold">18647115396</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4 text-blue-400 icon">📧</div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-white">邮箱地址</h4>
+                                <p class="text-blue-400">*******@163.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4 text-blue-400 icon">📍</div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-white">公司地址</h4>
+                                <p class="text-gray-300">内蒙古自治区呼和浩特市赛罕区科创中心908</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4 text-blue-400 icon">⏰</div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-white">服务时间</h4>
+                                <p class="text-gray-300">周一至周五 9:00-18:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧表单 -->
+                <div >
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">姓名 *</label>
+                                <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="请输入您的姓名">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">公司名称 *</label>
+                                <input type="text" id="company" name="company" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="请输入公司名称">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">联系电话 *</label>
+                                <input type="tel" id="phone" name="phone" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="请输入联系电话">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">邮箱地址</label>
+                                <input type="email" id="email" name="email" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="请输入邮箱地址">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">服务需求 *</label>
+                            <select id="service-type" name="service-type" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none">
+                                <option value="">请选择服务类型</option>
+                                <option value="diagnosis">能源诊断服务</option>
+                                <option value="trading">电力交易服务</option>
+                                <option value="review">交易复盘服务</option>
+                                <option value="management">能源管理服务</option>
+                                <option value="comprehensive">综合能源服务</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">需求描述 *</label>
+                            <textarea id="requirements" name="requirements" rows="5" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="请详细描述您的需求，包括当前面临的挑战、期望的解决方案等"></textarea>
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" id="agree" required class="mr-2 text-green-500">
+                            <label for="agree" class="text-gray-400 text-sm">已阅读并同意 <a href="#" class="text-green-400 hover:underline">隐私政策</a></label>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3 rounded-lg text-white font-semibold">提交咨询申请</button>
+                        <p class="text-gray-500 text-xs text-center">24 小时内专业答复</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-60 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-white mb-4">莱维塞尔能源科技（内蒙古）有限公司</div>
+                <p class="text-gray-400 mb-6">您身边的综合能碳管理专家</p>
+                <div class="flex justify-center space-x-8 mb-8">
+                    <a href="#diagnosis" class="text-gray-400 hover:text-white transition-colors">用能诊断</a>
+                    <a href="#trading" class="text-gray-400 hover:text-white transition-colors">电力交易</a>
+                    <a href="#review" class="text-gray-400 hover:text-white transition-colors">交易复盘</a>
+                    <a href="#management" class="text-gray-400 hover:text-white transition-colors">能源管理</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系我们</a>
+                </div>
+                <div class="border-t border-gray-700 pt-8">
+                    <p class="text-gray-500">© 2025莱维塞尔能源科技（内蒙古）有限公司. 保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCards = document.querySelectorAll('.service-card');
+            const serviceContents = document.querySelectorAll('.service-detail');
+            if (serviceContents.length > 0) {
+                serviceContents[0].classList.remove('hidden');
+            }
+            serviceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    serviceCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    const serviceType = this.getAttribute('data-service');
+                    serviceContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    const targetContent = document.getElementById(`${serviceType}-content`);
+                    if (targetContent) {
+                        targetContent.classList.remove('hidden');
+                    }
+                });
+            });
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
